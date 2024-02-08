@@ -50,6 +50,7 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         "fiscalYearStartMonth": 0,
         "gnetId": 1443,
         "graphTooltip": 0,
+        "id": None,
         "links": [],
         "liveNow": False,
         "panels": [],
@@ -59,136 +60,138 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         "tags": [
         "telegraf",
         "influxdb",
-        "hosts"
+        "hosts",
+        "mysql"
         ],
         "templating": {
-        "list": [
-            {
-            "auto": True,
-            "auto_count": 30,
-            "auto_min": "10s",
-            "current": {
-                "selected": False,
-                "text": "1m",
-                "value": "1m"
-            },
-            "hide": 0,
-            "name": "interval",
-            "options": [
-                {
-                "selected": False,
-                "text": "auto",
-                "value": "$__auto_interval_interval"
-                },
-                {
-                "selected": False,
-                "text": "10s",
-                "value": "10s"
-                },
-                {
-                "selected": False,
-                "text": "20s",
-                "value": "20s"
-                },
-                {
-                "selected": False,
-                "text": "30s",
-                "value": "30s"
-                },
-                {
-                "selected": True,
-                "text": "1m",
-                "value": "1m"
-                },
-                {
-                "selected": False,
-                "text": "10m",
-                "value": "10m"
-                },
-                {
-                "selected": False,
-                "text": "30m",
-                "value": "30m"
-                },
-                {
-                "selected": False,
-                "text": "1h",
-                "value": "1h"
-                },
-                {
-                "selected": False,
-                "text": "6h",
-                "value": "6h"
-                },
-                {
-                "selected": False,
-                "text": "12h",
-                "value": "12h"
-                },
-                {
-                "selected": False,
-                "text": "1d",
-                "value": "1d"
-                },
-                {
-                "selected": False,
-                "text": "7d",
-                "value": "7d"
-                },
-                {
-                "selected": False,
-                "text": "14d",
-                "value": "14d"
-                },
-                {
-                "selected": False,
-                "text": "30d",
-                "value": "30d"
-                }
-            ],
-            "query": "10s,20s,30s,1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
-            "refresh": 2,
-            "skipUrlSync": False,
-            "type": "interval"
-            }
-        ]
+    "list": [
+      
+      {
+        "auto": True,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": False,
+          "text": "1m",
+          "value": "1m"
         },
-        "time": {
-        "from": "now-5m",
-        "to": "now-30s"
-        },
-        "timepicker": {
-        "nowDelay": "30s",
-        "refresh_intervals": [
-            "5s",
-            "10s",
-            "30s",
-            "1m",
-            "5m",
-            "15m",
-            "30m",
-            "1h",
-            "2h",
-            "1d"
+        "hide": 0,
+        "name": "interval",
+        "options": [
+          {
+            "selected": False,
+            "text": "auto",
+            "value": "$__auto_interval_interval"
+          },
+          {
+            "selected": False,
+            "text": "10s",
+            "value": "10s"
+          },
+          {
+            "selected": False,
+            "text": "20s",
+            "value": "20s"
+          },
+          {
+            "selected": False,
+            "text": "30s",
+            "value": "30s"
+          },
+          {
+            "selected": True,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": False,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": False,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": False,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": False,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": False,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": False,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": False,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": False,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": False,
+            "text": "30d",
+            "value": "30d"
+          }
         ],
-        "time_options": [
-            "5m",
-            "15m",
-            "1h",
-            "6h",
-            "12h",
-            "24h",
-            "2d",
-            "7d",
-            "30d"
-        ]
-        },
-        "timezone": "browser",
-        "version": 7,
-        "weekStart": ""
-    },
-    "folderUid": "TXJqe-0Mk",
-    "overwrite": False
+        "query": "10s,20s,30s,1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "refresh": 2,
+        "skipUrlSync": False,
+        "type": "interval"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now-30s"
+  },
+  "timepicker": {
+    "nowDelay": "30s",
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "version": 7,
+  "weekStart": ""
+},
+    "folderUid": "e233a2ea-df41-42e6-a540-ccff8db8db80",
+    "overwrite": True
 }
     row = {
     "collapsed": True,
@@ -230,13 +233,10 @@ def mergeDashboards(dashboard_d: json, db_list: list):
 
     i=0 
     for row in consolidated_dashboard["dashboard"]["panels"]:   
-        tags = {
-                    "key": "host",
-                    "operator": "=~",
-                    "value": db_list[i]
-                }
         for panel in row["panels"]:
-            panel["targets"][0]["tags"].append(tags)
+            for target in panel["targets"]:
+                target["query"] = target["query"].replace("=~", "=")
+                target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
         i+=1
 
     with open("mergedDashboard.json", "w") as fp:
@@ -244,7 +244,7 @@ def mergeDashboards(dashboard_d: json, db_list: list):
     with open("mergedDashboard.json", "r") as file:
         consolidated_dashboard = json.load(file)
 
-    consolidated_dashboard["dashboard"]["title"] = "Databases_consolidated_dashboard_of_{}".format(db_list[0])
+    consolidated_dashboard["dashboard"]["title"] = "{}".format(db_list[0])
     with open("mergedDashboard.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
 
@@ -273,14 +273,16 @@ grafana_key = 'glsa_L302nAd4qtIcthbbzEHY1Zq103lst9oI_6c9b79ae'
 
 
 if __name__ == '__main__':
-    
-    db_list = input("Enter the database host names whose Grafana dashboards need to be consolidated. The first name should be primary database host followed by its secondary database host names. IMPORTANT: The host names should be entered in one line with single space in between\n")
-    if(' ' in db_list):
-        db_list = list(map(str, db_list.split(' ')))
-    else:
-        print("Single space is not found in the input provided. Please enter the host names as per the given instruction. Atleast two host names should be entered\n")
+
+    number = input("Enter the count of the database names (Primary+Replicas)\n")
+    if(int(number) < 2):
+        print("Atleast 2 database names are required. Primary Database followed by Replica(s)")
         exit(1)
-    
+    print("Enter the database names whose Grafana dashboards need to be consolidated. The first name should be primary database followed by its secondary or replica database names. IMPORTANT: The DB names should be entered in line by line by pressing enter\n")
+    db_list = []
+    for db in range(int(number)):
+        db_list.append(input().strip())
+ 
     dashboardUID = "YIMEXyZ4k"
     dashboard = downloadDashboardJSON(grafana_key, dashboardUID)
     mergeDashboards(dashboard, db_list)
@@ -288,5 +290,7 @@ if __name__ == '__main__':
         print("Successfully uploaded the consolidated dashboard for {} in Grafana\n".format(db_list[0]))
     else:
         print("Error! Couldn't upload the consolidated dashboard for {} to Grafana".format(db_list[0]))
+        
+   
         
    
