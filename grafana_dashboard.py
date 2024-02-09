@@ -243,13 +243,14 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         json.dump(consolidated_dashboard, fp)
     with open("mergedDashboard.json", "r") as file:
         consolidated_dashboard = json.load(file)
-
-    consolidated_dashboard["dashboard"]["title"] = "{}".format(db_list[0])
+    
+    db_name = db_list[0].split('-')[:3]
+    db_name = '-'.join(db_name)
+    consolidated_dashboard["dashboard"]["title"] = "{}".format(db_name)
     with open("mergedDashboard.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
 
-    
-    
+
 
 def uploadConsolidatedDashboard(grafana_key: str) -> bool:
     url = f"http://grafana-prod.default.svc.cluster.local:3000/api/dashboards/db"
@@ -291,6 +292,7 @@ if __name__ == '__main__':
     else:
         print("Error! Couldn't upload the consolidated dashboard for {} to Grafana".format(db_list[0]))
         
+   
    
         
    
