@@ -223,7 +223,10 @@ def mergeDashboards(dashboard_d: json, db_list: list):
     for row in consolidated_dashboard["dashboard"]["panels"]:  
         dashboard = dashboard_d  
         for panel in dashboard["dashboard"]["panels"]:
-            row["panels"].append(panel) 
+            if(("type" in panel) and (panel["type"] == "row")):
+              pass
+            else:
+              row["panels"].append(panel) 
 
     with open("mergedDashboard_mysql.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
@@ -233,10 +236,16 @@ def mergeDashboards(dashboard_d: json, db_list: list):
 
     i=0 
     for row in consolidated_dashboard["dashboard"]["panels"]:   
-        for panel in row["panels"]:
-            for target in panel["targets"]:
-                target["query"] = target["query"].replace("=~", "=")
-                target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
+        for target in panel["targets"]:
+                if("query" in target):
+                  target["query"] = target["query"].replace("=~", "=")
+                  target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
+                  target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
+
+                if("tags" in target):
+                    if(len(target["tags"]) != 0):
+                        target["tags"][0]["operator"] = "="
+                        target["tags"][0]["value"] = f"{db_list[i]}"
         i+=1
 
     with open("mergedDashboard_mysql.json", "w") as fp:
@@ -291,4 +300,5 @@ if __name__ == '__main__':
         print("Successfully uploaded the consolidated dashboard for {} in Grafana\n".format(db_list[0]))
     else:
         print("Error! Couldn't upload the consolidated dashboard for {} to Grafana".format(db_list[0]))
+        
 
