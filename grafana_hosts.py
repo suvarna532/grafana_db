@@ -11,7 +11,7 @@ def downloadDashboardJSON(grafana_key: str, dashboardUID: str):
     }
     response = requests.request("GET", url, headers=headers)
     if(response.status_code == 200):
-        with open("downloadDashboardJSON.json", "w") as file:
+        with open("downloadDashboardJSON_mysql.json", "w") as file:
             json.dump(response.json(), file)
     
         return response.json()
@@ -45,7 +45,7 @@ def mergeDashboards(dashboard_d: json, db_list: list):
             }
         ]
         },
-        "description": "Telegraf Host Metrics",
+        "description": "This dashboard provides basic performance metrics for mysql/mariadb. Uses telegraf built-in plugin",
         "editable": True,
         "fiscalYearStartMonth": 0,
         "gnetId": 1443,
@@ -190,7 +190,7 @@ def mergeDashboards(dashboard_d: json, db_list: list):
   "version": 7,
   "weekStart": ""
 },
-    "folderUid": "e233a2ea-df41-42e6-a540-ccff8db8db80",
+    "folderUid": "fe339166-aa7b-4a7b-8225-7f3006dc07ee",
     "overwrite": True
 }
     row = {
@@ -213,41 +213,50 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         primary_row["title"] = db_list[db]
         consolidated_dashboard["dashboard"]["panels"].append(primary_row)
          
-        with open("mergedDashboard.json", "w") as fp:
+        with open("mergedDashboard_mysql.json", "w") as fp:
             json.dump(consolidated_dashboard, fp)
         
-        with open("mergedDashboard.json", "r") as file:
+        with open("mergedDashboard_mysql.json", "r") as file:
             consolidated_dashboard = json.load(file)
 
 
     for row in consolidated_dashboard["dashboard"]["panels"]:  
         dashboard = dashboard_d  
         for panel in dashboard["dashboard"]["panels"]:
-            row["panels"].append(panel) 
+            if(("type" in panel) and (panel["type"] == "row")):
+              pass
+            else:
+              row["panels"].append(panel) 
 
-    with open("mergedDashboard.json", "w") as fp:
+    with open("mergedDashboard_mysql.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
 
-    with open("mergedDashboard.json", "r") as file:
+    with open("mergedDashboard_mysql.json", "r") as file:
         consolidated_dashboard = json.load(file)
 
     i=0 
     for row in consolidated_dashboard["dashboard"]["panels"]:   
-        for panel in row["panels"]:
-            for target in panel["targets"]:
-                target["query"] = target["query"].replace("=~", "=")
-                target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
+        for target in panel["targets"]:
+                if("query" in target):
+                  target["query"] = target["query"].replace("=~", "=")
+                  target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
+                  target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
+
+                if("tags" in target):
+                    if(len(target["tags"]) != 0):
+                        target["tags"][0]["operator"] = "="
+                        target["tags"][0]["value"] = f"{db_list[i]}"
         i+=1
 
-    with open("mergedDashboard.json", "w") as fp:
+    with open("mergedDashboard_mysql.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
-    with open("mergedDashboard.json", "r") as file:
+    with open("mergedDashboard_mysql.json", "r") as file:
         consolidated_dashboard = json.load(file)
     
     db_name = db_list[0].split('-')[:3]
     db_name = '-'.join(db_name)
     consolidated_dashboard["dashboard"]["title"] = "{}".format(db_name)
-    with open("mergedDashboard.json", "w") as fp:
+    with open("mergedDashboard_mysql.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
 
 
@@ -260,7 +269,7 @@ def uploadConsolidatedDashboard(grafana_key: str) -> bool:
         "Accept": "application/json",
     }
 
-    with open("mergedDashboard.json", "r") as file:
+    with open("mergedDashboard_mysql.json", "r") as file:
         consolidated_dashboard = json.load(file)
 
     response = requests.request("POST", url, headers=headers, json=consolidated_dashboard)
@@ -284,7 +293,7 @@ if __name__ == '__main__':
     for db in range(int(number)):
         db_list.append(input().strip())
  
-    dashboardUID = "YIMEXyZ4k"
+    dashboardUID = "kH7HzUZVk"
     dashboard = downloadDashboardJSON(grafana_key, dashboardUID)
     mergeDashboards(dashboard, db_list)
     if(uploadConsolidatedDashboard(grafana_key)):
