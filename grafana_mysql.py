@@ -240,12 +240,14 @@ def mergeDashboards(dashboard_d: json, db_list: list):
                 if("query" in target):
                   target["query"] = target["query"].replace("=~", "=")
                   target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
-                  #target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
-
-                # if("tags" in target):
-                #     if(len(target["tags"]) != 0):
-                #         target["tags"][0]["operator"] = "="
-                #         target["tags"][0]["value"] = f"{db_list[i]}"
+                  target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
+                  if("tags" in target and len(target["tags"]) != 0 ):
+                      target["tags"].pop(0)
+                else:
+                  if("tags" in target):
+                      if(len(target["tags"]) != 0):
+                          target["tags"][0]["operator"] = "="
+                          target["tags"][0]["value"] = f"{db_list[i]}"
         i+=1
 
     with open("mergedDashboard_mysql.json", "w") as fp:
