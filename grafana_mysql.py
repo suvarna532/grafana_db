@@ -236,7 +236,8 @@ def mergeDashboards(dashboard_d: json, db_list: list):
 
     i=0 
     for row in consolidated_dashboard["dashboard"]["panels"]:   
-        for target in panel["targets"]:
+        for panel in row["panels"]:
+            for target in panel["targets"]:
                 if("query" in target):
                   target["query"] = target["query"].replace("=~", "=")
                   target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
