@@ -60,7 +60,6 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         "tags": [
         "telegraf",
         "influxdb",
-        "hosts",
         "mysql"
         ],
         "templating": {
