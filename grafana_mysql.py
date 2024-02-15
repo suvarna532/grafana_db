@@ -239,11 +239,11 @@ def mergeDashboards(dashboard_d: json, db_list: list):
         for panel in row["panels"]:
             for target in panel["targets"]:
                 if("query" in target):
-                  target["query"] = target["query"].replace("=~", "=")
-                  target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
-                  target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
-                  if("tags" in target and len(target["tags"]) != 0 ):
-                      target["tags"].pop(0)
+                    target["query"] = target["query"].replace("=~", "=")
+                    target["query"] = target["query"].replace("/^$host$/", f"'{db_list[i]}'")
+                    target["query"] = target["query"].replace("/$host$/", f"'{db_list[i]}'")
+                    if("tags" in target and len(target["tags"]) != 0 ):
+                        target["tags"].pop(0)
                 else:
                   if("tags" in target):
                       if(len(target["tags"]) != 0):
