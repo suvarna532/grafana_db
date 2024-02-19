@@ -290,7 +290,7 @@ if __name__ == '__main__':
     if(int(number) < 2):
         print("Atleast 2 database names are required. Primary Database followed by Replica(s)")
         exit(1)
-    alias = input("Enter the consolidated dashboard alias name i.e., DB cluster alias name")
+    alias = input("Enter the consolidated dashboard alias name i.e., DB cluster alias name\n")
     print("Enter the database names whose Grafana dashboards need to be consolidated. The first name should be primary database followed by its secondary or replica database names. IMPORTANT: The DB names should be entered in line by line by pressing enter\n")
     db_list = []
     for db in range(int(number)):
