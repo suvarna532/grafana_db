@@ -17,7 +17,7 @@ def downloadDashboardJSON(grafana_key: str, dashboardUID: str):
     else:
         raise ValueError(f"Failed to download dashboard. Status code: {response.status_code}")
  
-def mergeDashboards(dashboard_d: json, db_list: list):
+def mergeDashboards(dashboard_d: json, db_list: list, alias: str):
     consolidated_dashboard = {
     "dashboard": {
         "annotations": {
@@ -188,7 +188,7 @@ def mergeDashboards(dashboard_d: json, db_list: list):
   "weekStart": ""
 },
     "folderUid": "e233a2ea-df41-42e6-a540-ccff8db8db80",
-    "overwrite": True
+    "overwrite": False
 }
     row = {
   
@@ -240,9 +240,9 @@ def mergeDashboards(dashboard_d: json, db_list: list):
     with open("mergedDashboard.json", "r") as file:
         consolidated_dashboard = json.load(file)
 
-    db_name = db_list[0].split('-')[:3]
-    db_name = '-'.join(db_name)
-    consolidated_dashboard["dashboard"]["title"] = "{}".format(db_name)
+    #db_name = db_list[0].split('-')[:3]
+    #db_name = '-'.join(db_name)
+    consolidated_dashboard["dashboard"]["title"] = "{}".format(alias)
     with open("mergedDashboard.json", "w") as fp:
         json.dump(consolidated_dashboard, fp)
 
@@ -271,6 +271,7 @@ if __name__ == '__main__':
     if(int(number) < 2):
         print("Atleast 2 database names are required. Primary Database followed by Replica(s)")
         exit(1)
+    alias = input("Enter the consolidated dashboard alias name i.e., DB cluster alias name")
     print("Enter the database names whose Grafana dashboards need to be consolidated. The first name should be primary database followed by its secondary or replica database names. IMPORTANT: The DB names should be entered in line by line by pressing enter\n")
     db_list = []
     for db in range(int(number)):
@@ -278,7 +279,7 @@ if __name__ == '__main__':
 
     dashboardUID = "YIMEXyZ4k"
     dashboard = downloadDashboardJSON(grafana_key, dashboardUID)
-    mergeDashboards(dashboard, db_list)
+    mergeDashboards(dashboard, db_list, alias)
     if(uploadConsolidatedDashboard(grafana_key)):
         print("Successfully uploaded the consolidated dashboard for {} in Grafana\n".format(db_list[0]))
     else:
